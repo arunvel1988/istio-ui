@@ -30,7 +30,7 @@ istioctl ztunnel-config workloads
 
 ###################################################################################
 
-
+kubectl logs -n istio-system -l app=ztunnel
 
 
 
