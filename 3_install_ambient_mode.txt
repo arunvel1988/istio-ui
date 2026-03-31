@@ -32,5 +32,49 @@ istioctl ztunnel-config workloads
 
 kubectl logs -n istio-system -l app=ztunnel
 
+##########################################################################
 
 
+
+###### INSTALL WAYPOINT L7 AMBIENT MODE ###########################################
+
+istioctl waypoint apply --enroll-namespace -n default
+
+
+kubectl rollout status deployment/waypoint -n default
+
+kubectl get gateway -n default
+istioctl waypoint list -n default
+
+#######################################################################################
+
+nano booking-l7-route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: booking-l7-route
+  namespace: default
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: booking-service
+    port: 80
+  rules:
+  - filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: x-processed-by
+          value: waypoint
+    backendRefs:
+    - name: booking-service
+      port: 80
+
+
+################################################################################
+
+kubectl apply -f booking-l7-route.yaml
+
+kubectl exec tester -- curl -s -v -X POST http://booking-service/book 2>&1 | grep -i "x-processed-by"
+############################################################
