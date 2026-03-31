@@ -1,0 +1,57 @@
+###########################################################################
+
+kubectl get po -n istio-system
+
+kubectl get pod,service -n istio-system
+
+kubectl run test --image=nginx
+
+kubectl get pods -o \
+    jsonpath='{range .items[*].spec.containers[*]}{.name}{"\n"}{end}'
+
+
+
+istioctl analyze
+
+istioctl proxy-status
+
+kubectl get pods -n default
+
+istioctl proxy-config cluster <pod-name> -n default
+istioctl proxy-config listener <pod-name> -n default
+istioctl proxy-config route <pod-name> -n default
+
+###########################################################################
+
+
+curl -L https://istio.io/downloadIstio \
+            | ISTIO_VERSION=1.20.3 \
+              TARGET_ARCH=x86_64 sh -
+
+ls istio-1.20.3/
+
+cd istio-1.20.3/
+
+export PATH=$PWD/bin:$PATH
+
+istioctl version --remote=false
+
+istioctl --help
+
+
+istioctl install --set profile=demo -y
+
+kubectl label namespace default \
+    istio-injection=enabled
+
+
+kubectl get namespace default --show-labels
+
+kubectl run test --image=nginx
+
+kubectl get pods -o \
+    jsonpath='{range .items[*].spec.containers[*]}{.name}{"\n"}{end}'
+
+
+
+
