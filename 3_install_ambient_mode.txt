@@ -9,5 +9,28 @@ istioctl install -f /tmp/ambient.yaml -y
 
 kubectl get pod,service -n istio-system
 
+kubectl apply -f /tmp/booking-deployment.yaml
+kubectl apply -f /tmp/notification-deployment.yaml
+
+kubectl run tester --image=nginx
+
+kubectl label namespace default istio.io/dataplane-mode=ambient
+
+kubectl get namespace default --show-labels
+
+istioctl ztunnel-config workloads
+
+kubectl get pods
+
+kubectl exec tester -- curl -s -X POST http://booking-service/book
+
+kubectl logs -n istio-system -l app=ztunnel --tail=20
+
+istioctl ztunnel-config workloads
+
+###################################################################################
+
+
+
 
 
