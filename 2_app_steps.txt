@@ -1,27 +1,7 @@
 ###########################################################################
 
-kubectl get po -n istio-system
-
-kubectl get pod,service -n istio-system
-
-kubectl run test --image=nginx
-
-kubectl get pods -o \
-    jsonpath='{range .items[*].spec.containers[*]}{.name}{"\n"}{end}'
 
 
-
-istioctl analyze
-
-istioctl proxy-status
-
-kubectl get pods -n default
-
-istioctl proxy-config cluster <pod-name> -n default
-istioctl proxy-config listener <pod-name> -n default
-istioctl proxy-config route <pod-name> -n default
-
-###########################################################################
 
 
 curl -L https://istio.io/downloadIstio \
@@ -51,7 +31,30 @@ kubectl run test --image=nginx
 
 kubectl get pods -o \
     jsonpath='{range .items[*].spec.containers[*]}{.name}{"\n"}{end}'
+###########################################################################
 
+istioctl install --set profile=demo -y \
+    --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+
+
+kubectl get configmap istio -n istio-system \
+  -o jsonpath='{.data.mesh}' | grep -A 2 outboundTrafficPolicy
+
+
+###########################################################################
+
+kubectl exec test -c test -- \
+    curl -sS -o /dev/null -D - http://httpbin.org | \
+    grep HTTP/
+
+
+istioctl uninstall --purge -y
+
+kubectl get namespaces
+
+kubectl get crd | grep istio
+
+###########################################################################
 
 
 
