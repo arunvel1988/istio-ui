@@ -1,0 +1,13 @@
+################################################################################
+ kubectl get crd gateways.gateway.networking.k8s.io
+
+kubectl edit configmap cilium-config -n kube-system
+
+cni-exclusive: "false"
+### note : it should be set to false #####
+istioctl install -f /tmp/ambient.yaml -y
+
+kubectl get pod,service -n istio-system
+
+
+
