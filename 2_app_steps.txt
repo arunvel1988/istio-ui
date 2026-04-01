@@ -107,6 +107,10 @@ spec:
   rules:
   - {}
 ##########################################
+
+kubectl exec -it deploy/frontend -- curl backend -v
+
+##########################################
 kubectl run test --image=nginx
 
 kubectl get pods -o \
