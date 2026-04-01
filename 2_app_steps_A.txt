@@ -1,6 +1,28 @@
 ################################################################################
 
-#BACKEND ALL ######
+#FRONTEND ALL ######
+# =========================
+# FRONTEND v1
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do curl -s backend; sleep 2; done"]
 
 # =========================
 # Backend v1
