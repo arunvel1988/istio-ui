@@ -229,3 +229,58 @@ spec:
 kubectl logs -f deploy/frontend
 
 ###############################################################################
+
+
+### INJECT ERRORS ###################
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  hosts:
+  - backend
+  http:
+  - fault:
+      abort:
+        percentage:
+          value: 50
+        httpStatus: 500
+    route:
+    - destination:
+        host: backend
+
+###############################################################################
+
+kubectl exec -it deploy/frontend -- curl -v backend
+
+###############################################################################
+
+### RETRY ###############
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  hosts:
+  - backend
+  http:
+  - fault:
+      abort:
+        percentage:
+          value: 50
+        httpStatus: 500
+    route:
+    - destination:
+        host: backend
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+###############################################################################
+
+kubectl exec -it deploy/frontend -- curl -v backend
+
+###############################################################################
+
