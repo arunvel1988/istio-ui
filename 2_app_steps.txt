@@ -27,6 +27,86 @@ kubectl label namespace default \
 
 kubectl get namespace default --show-labels
 
+##########################################
+
+### BACKEND DEPLOYMENT YAML ########
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello from backend"
+        ports:
+        - containerPort: 5678
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 80
+    targetPort: 5678
+
+
+##########################################
+### FRONTEND DEPLOYMENT YAML ########
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do curl -s backend; sleep 2; done"]
+
+
+##########################################
+
+kubectl logs -f deploy/frontend
+
+########################################## DENY YAML ##########################################
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  action: DENY
+  rules:
+  - {}
+##########################################
 kubectl run test --image=nginx
 
 kubectl get pods -o \
@@ -35,6 +115,11 @@ kubectl get pods -o \
 
 istioctl install --set profile=demo -y \
     --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+
+
+istioctl install --set profile=demo -y \
+  --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
+
 
 
 kubectl get configmap istio -n istio-system \
