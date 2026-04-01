@@ -53,5 +53,90 @@ kubectl get svc istio-ingressgateway -n istio-system
 
 ###########################################################
 
+########### HTTPS ############# 
+kubectl get svc istio-ingressgateway -n istio-system
+sudo nano /etc/hosts
+
+192.168.1.10   myapp.local
+
+<INGRESS-IP>   myapp.local
+
+###########################################################
+
+
+kubectl get svc istio-ingressgateway -n istio-system
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout tls.key -out tls.crt \
+-subj "/CN=myapp.local/O=myapp"
+
+kubectl create -n istio-system secret tls myapp-secret \
+--key=tls.key \
+--cert=tls.crt
+
+###########################################################
+
+###### GATEWAY ###### HTTPS
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: myapp-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: myapp-secret
+    hosts:
+    - "myapp.local"
+###########################################################
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  hosts:
+  - "myapp.local"
+  gateways:
+  - myapp-gateway
+  http:
+  
+  # 🔹 Route /api → backend
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: backend
+        port:
+          number: 80
+
+  # 🔹 Route / → frontend
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: frontend
+        port:
+          number: 80
+
+###########################################################
+
+kubectl apply -f gateway.yaml
+kubectl apply -f vs.yaml
+
+curl -k https://myapp.local
+
+curl -k https://myapp.local/api
+
+###########################################################
 
           
