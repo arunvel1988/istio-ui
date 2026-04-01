@@ -1,0 +1,57 @@
+###########################################################
+
+
+kubectl get svc -n istio-system
+kubectl get svc istio-ingressgateway -n istio-system
+
+
+
+####### GATEWAY YAML ############
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: frontend-gateway
+spec:
+  selector:
+    istio: ingressgateway   # use Istio default gateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+###########################################################
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: frontend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - frontend-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: frontend
+        port:
+          number: 80
+###########################################################
+
+kubectl apply -f gateway.yaml
+kubectl apply -f vs.yaml
+
+kubectl get svc istio-ingressgateway -n istio-system
+
+###########################################################
+
+
+          
