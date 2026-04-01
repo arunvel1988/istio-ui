@@ -29,3 +29,66 @@ istioctl authn tls-check
 
 
 ############################################################################################################
+istioctl dashboard kiali
+
+kubectl exec -it deploy/frontend -- sh
+while true; do curl backend; sleep 1; done
+
+############################################################################################################
+
+### TRAFFIC MIRRORING ##################################
+
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend
+spec:
+  host: backend
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+
+
+##############################################################
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+        subset: v1   # MAIN traffic
+      weight: 100
+
+    mirror:
+      host: backend
+      subset: v2     # SHADOW traffic
+
+    mirrorPercentage:
+      value: 100.0   # mirror ALL traffic
+
+#######################################################
+
+
+kubectl apply -f mirror.yaml
+
+#######################################################
+
+kubectl logs -f deploy/frontend
+
+kubectl exec -it deploy/frontend -- sh
+while true; do curl backend; sleep 1; done
+
+kubectl logs -f deploy/backend-v2
+#######################################################
+
