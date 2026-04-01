@@ -1,0 +1,120 @@
+################################################################################
+
+#BACKEND ALL ######
+
+# =========================
+# Backend v1
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1
+    spec:
+      containers:
+      - name: backend
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello from v1"
+        ports:
+        - containerPort: 5678
+
+---
+# =========================
+# Backend v2
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v2
+    spec:
+      containers:
+      - name: backend
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello from v2"
+        ports:
+        - containerPort: 5678
+
+---
+# =========================
+# Service (common)
+# =========================
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 80
+    targetPort: 5678
+
+---
+# =========================
+# DestinationRule (subsets)
+# =========================
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend
+spec:
+  host: backend
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+
+
+###############################################
+
+## VIRTUAL SERVICE #############
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+        subset: v1
+      weight: 50
+    - destination:
+        host: backend
+        subset: v2
+      weight: 50
+
+###############################################
+kubectl logs -f deploy/frontend
+
+kubectl exec -it deploy/frontend -- curl backend -v
