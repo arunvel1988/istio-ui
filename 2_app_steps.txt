@@ -5,12 +5,12 @@
 
 
 curl -L https://istio.io/downloadIstio \
-            | ISTIO_VERSION=1.20.3 \
+            | ISTIO_VERSION=1.29.1 \
               TARGET_ARCH=x86_64 sh -
 
-ls istio-1.20.3/
+ls istio-1.29.1/
 
-cd istio-1.20.3/
+cd istio-1.29.1/
 
 export PATH=$PWD/bin:$PATH
 
