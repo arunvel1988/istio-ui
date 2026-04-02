@@ -1,0 +1,124 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do curl -s backend; sleep 2; done"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1
+    spec:
+      containers:
+      - name: backend
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello from v1"
+        - "-listen=:80"        # ✅ FIX
+        ports:
+        - containerPort: 80    # ✅ FIX
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v2
+    spec:
+      containers:
+      - name: backend
+        image: hashicorp/http-echo
+        args:
+        - "-text=Hello from v2"
+        - "-listen=:80"        # ✅ FIX
+        ports:
+        - containerPort: 80    # ✅ FIX
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+  - name: http               # ✅ CRITICAL for Istio
+    port: 80
+    targetPort: 80           # ✅ FIX
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend
+spec:
+  host: backend
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  hosts:
+  - backend
+  http:
+  - match:
+    - headers:
+        x-user:
+          exact: test-user
+    route:
+    - destination:
+        host: backend
+        subset: v2
+
+  - route:
+    - destination:
+        host: backend
+        subset: v1
