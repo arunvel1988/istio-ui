@@ -5,6 +5,10 @@ kubectl run tester --image=nginx
 
 kubectl get pod -L app,version
 
+kubectl apply -f fortio-deployment.yaml
 
+kubectl apply -f notification-deployment.yaml
+
+kubectl apply -f destination-rule.yaml
 
 ###################################################################################################################
