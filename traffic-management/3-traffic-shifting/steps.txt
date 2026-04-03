@@ -19,3 +19,8 @@ kubectl exec -it tester -- bash -c \
 ####################### TRAFFIC SHIFTING ###############################################
 
 kubectl apply -f destination-rule.yaml
+
+kubectl apply -f virtual-service.yaml
+
+
+####################### TRAFFIC SHIFTING ###############################################
