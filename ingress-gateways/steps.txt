@@ -45,4 +45,10 @@ kubectl get secret -n istio-system booking-credential
 
 kubectl describe secret booking-credential -n istio-system
 
+kubectl apply -f gateway-secure.yaml
 
+kubectl apply -f virtual-service-secure.yaml
+
+curl -v --cacert certificates/example.com.crt \
+  https://booking.example.com:30443/bookings; \
+  echo;
