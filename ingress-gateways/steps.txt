@@ -28,4 +28,21 @@ echo;
 ########################################################################################################
 
 
+openssl req -x509 -nodes -days 365 \
+-newkey rsa:2048 \
+-keyout booking.example.com.key \
+-out booking.example.com.crt \
+-subj "/CN=booking.example.com/O=booking"
+
+kubectl create -n istio-system secret tls booking-credential \
+  --key=./booking.example.com.key \
+  --cert=./booking.example.com.crt
+
+
+########################################################################################################
+
+kubectl get secret -n istio-system booking-credential
+
+kubectl describe secret booking-credential -n istio-system
+
 
