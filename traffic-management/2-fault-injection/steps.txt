@@ -1,6 +1,10 @@
 ###################################################################
 kubectl run tester --image=nginx
 
+kubectl apply -f booking-deployment.yaml
+
+kubectl apply -f notification-deployment.yaml
+
 kubectl get pod -L app,version
 
 kubectl exec -it tester -- \
@@ -8,3 +12,5 @@ kubectl exec -it tester -- \
     echo;'
 
 #############################################################################
+kubectl apply -f destination-rule.yaml
+
