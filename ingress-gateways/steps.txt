@@ -97,4 +97,11 @@ kubectl create secret generic booking-credential-mutual \
 
 ########################################################################################################
 
+kubectl apply -f gateway-mutual-tls.yaml
+
+curl -v --cacert /root/certificates/example.com.crt \
+    --cert /root/certificates/client.example.com.crt \
+    --key /root/certificates/client.example.com.key \
+    https://booking.example.com:30443/bookings; \
+    echo;
 ########################################################################################################
