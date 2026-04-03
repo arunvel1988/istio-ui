@@ -1,3 +1,10 @@
 ###################################################################
 kubectl run tester --image=nginx
 
+kubectl get pod -L app,version
+
+kubectl exec -it tester -- \
+    bash -c 'curl -s -X POST http://booking-service/book; \
+    echo;'
+
+#############################################################################
