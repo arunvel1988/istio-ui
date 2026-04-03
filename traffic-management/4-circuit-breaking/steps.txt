@@ -23,3 +23,26 @@ kubectl exec -it tester -- \
 
 ###################################################################################################################
 
+export FORTIO_POD=$(kubectl get pods -l app=fortio -o 'jsonpath={.items[0].metadata.name}')
+kubectl exec ${FORTIO_POD} -c fortio -- \
+  /usr/bin/fortio load -c 1 -qps 0 -n 20 -loglevel Warning \
+  -X POST http://notification-service/notify
+
+
+
+###################################################################################################################
+
+export FORTIO_POD=$(kubectl get pods -l app=fortio -o 'jsonpath={.items[0].metadata.name}')
+kubectl exec ${FORTIO_POD} -c fortio -- \
+  /usr/bin/fortio load -c 1 -qps 0 -n 20 -loglevel Warning \
+  -X POST http://notification-service/notify
+
+
+
+###################################################################################################################
+
+kubectl exec "$FORTIO_POD" -c istio-proxy -- \
+    pilot-agent request GET stats | \
+    grep "default|notification-service.default.svc.cluster.local;.upstream_rq_pending_overflow"
+
+###################################################################################################################
