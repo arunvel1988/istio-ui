@@ -49,7 +49,26 @@ kubectl exec -it tester -- \
 
 
 ###########################################################################################################
+kubectl apply -f 2-virtual-service-uri-prefix.yaml
 
+
+# Should return ["EMAIL","SMS"]
+kubectl exec -it tester -- \
+    bash -c 'for i in {1..20}; \
+                do curl -s -X POST http://notification-service/v2/notify;
+                echo;
+            done;'
+
+
+# Should return ["EMAIL"]
+kubectl exec -it tester -- \
+    bash -c 'for i in {1..20}; \
+                do curl -s -X POST http://notification-service/notify;
+                echo;
+            done;'
+
+
+###########################################################################################################
 
 
 
