@@ -52,3 +52,49 @@ kubectl apply -f virtual-service-secure.yaml
 curl -v --cacert certificates/example.com.crt \
   https://booking.example.com:30443/bookings; \
   echo;
+
+
+
+########################################################################################################
+mkdir -p /root/certificates
+
+
+cd /root/certificates
+
+openssl genrsa -out example.com.key 2048
+openssl req -x509 -new -nodes \
+  -key example.com.key \
+  -sha256 -days 365 \
+  -out example.com.crt \
+  -subj "/CN=example.com/O=example"
+
+
+openssl genrsa -out booking.example.com.key 2048
+
+openssl req -new \
+  -key booking.example.com.key \
+  -out booking.example.com.csr \
+  -subj "/CN=booking.example.com/O=booking"
+
+
+openssl x509 -req \
+  -in booking.example.com.csr \
+  -CA example.com.crt \
+  -CAkey example.com.key \
+  -CAcreateserial \
+  -out booking.example.com.crt \
+  -days 365 -sha256
+
+
+ls /root/certificates
+
+kubectl create secret generic booking-credential-mutual \
+  -n istio-system \
+  --from-file=ca.crt=/root/certificates/example.com.crt \
+  --from-file=tls.crt=/root/certificates/booking.example.com.crt \
+  --from-file=tls.key=/root/certificates/booking.example.com.key
+
+
+########################################################################################################
+
+########################################################################################################
