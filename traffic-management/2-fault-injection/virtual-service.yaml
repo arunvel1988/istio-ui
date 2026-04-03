@@ -1,0 +1,18 @@
+# File virtual-service.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: notification
+spec:
+  hosts:
+  - notification-service
+  http:
+  - fault:
+      delay:
+        fixedDelay: 3s
+        percentage:
+          value: 100
+    route:
+    - destination:
+        host: notification-service
+        subset: v1
