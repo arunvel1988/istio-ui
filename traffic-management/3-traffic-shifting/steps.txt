@@ -30,3 +30,14 @@ kubectl exec -it tester -- bash -c \
 
 ####################### TRAFFIC SHIFTING ###############################################
 
+kubectl apply -f 1-virtual-service-all-traffic-v2.yaml
+
+kubectl exec -it tester -- bash -c \
+    'for i in {1..20}; \
+        do curl -s -X POST http://notification-service/notify;
+        echo; \
+     done;'
+
+
+####################### TRAFFIC SHIFTING ###############################################
+
