@@ -30,3 +30,12 @@ kubectl exec -it tester -- \
     bash -c 'curl -s -w "\n* Response time: %{time_total}s\n" \
                -X POST http://booking-service/book'
 #############################################################################
+
+
+kubectl apply -f 2-virtual-service-http-error.yaml
+
+kubectl exec -it tester -- \
+    bash -c 'curl -s -X POST http://booking-service/book; \
+    echo;'
+
+#############################################################################
