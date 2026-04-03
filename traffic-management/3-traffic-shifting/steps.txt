@@ -1,0 +1,6 @@
+####################### TRAFFIC SHIFTING ###############################################
+
+
+
+kubectl run tester --image=nginx
+
