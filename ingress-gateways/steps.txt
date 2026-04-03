@@ -6,6 +6,10 @@ kubectl apply -f booking-deployment.yaml
 
 kubectl get pod -L app,version
 
+kubectl exec -it tester -- \
+    bash -c 'curl -s http://booking-service/bookings; \
+    echo;'
+
 ########################################################################################################
 
 
