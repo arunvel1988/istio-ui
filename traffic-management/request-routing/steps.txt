@@ -2,3 +2,8 @@
 
 ###########
 1) notification service
+
+kubectl run tester --image=nginx
+
+
+kubectl get pod -L app,version
