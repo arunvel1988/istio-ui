@@ -14,6 +14,11 @@ kubectl exec -it tester -- \
 
 kubectl apply -f gateway.yaml
 
+kubectl apply -f virtual-service.yaml
+
+
+
+########################################################################################################
 
 
 
