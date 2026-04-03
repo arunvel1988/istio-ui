@@ -23,3 +23,10 @@ kubectl exec -it tester -- \
 
 
 #############################################################################
+
+kubectl apply -f 1-virtual-service-fault-injection.yaml
+
+kubectl exec -it tester -- \
+    bash -c 'curl -s -w "\n* Response time: %{time_total}s\n" \
+               -X POST http://booking-service/book'
+#############################################################################
