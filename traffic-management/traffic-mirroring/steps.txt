@@ -6,5 +6,9 @@ kubectl get pod -L app,version
 
 kubectl apply -f notification-deployment.yaml
 
+kubectl apply -f destination-rule.yaml
+
+kubectlapply -f virtual-service.yaml
+
 ############################################################################################
 
