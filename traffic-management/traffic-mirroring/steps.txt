@@ -12,3 +12,22 @@ kubectlapply -f virtual-service.yaml
 
 ############################################################################################
 
+kubectl exec -it tester -- \
+    bash -c 'for i in {1..20}; \
+                do curl -s -X POST http://notification-service/notify; \
+                echo; \
+            done;
+
+
+
+kubectl logs \
+    $(kubectl get pods -o name -l app=notification-service,version=v1)
+
+
+
+kubectl logs \
+    $(kubectl get pods -o name -l app=notification-service,version=v2)
+
+
+
+############################################################################################
