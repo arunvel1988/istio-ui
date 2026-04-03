@@ -1,6 +1,6 @@
 
 
-###########
+########################################################################################################
 1) notification service
 
 kubectl run tester --image=nginx
@@ -28,6 +28,27 @@ kubectl exec -it tester -- \
                 do curl -s -X POST http://notification-service/notify;
                 echo; \
             done;'
+###########################################################################################################
+
+kubectl apply -f 1-virtual-service-header.yaml
+
+# Should return ["EMAIL","SMS"]
+kubectl exec -it tester -- \
+    bash -c 'for i in {1..20}; \
+                do curl -s -X POST -H "testing: true" http://notification-service/notify;
+                echo;
+            done;'
+
+
+# Should return ["EMAIL","SMS"]
+kubectl exec -it tester -- \
+    bash -c 'for i in {1..20}; \
+                do curl -s -X POST -H "testing: true" http://notification-service/notify;
+                echo;
+            done;'
+
+
+###########################################################################################################
 
 
 
