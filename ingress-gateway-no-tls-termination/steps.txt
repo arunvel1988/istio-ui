@@ -8,4 +8,6 @@ kubectl get svc booking-service
 
 kubectl apply -f gateway.yaml
 
+kubectl apply -f virtual-service.yaml
+
 
