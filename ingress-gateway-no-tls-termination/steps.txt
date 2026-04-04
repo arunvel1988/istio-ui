@@ -1,3 +1,9 @@
 #############################################################################
 
 # ingress
+
+kubectl get pod -L app,version
+
+kubectl get svc booking-service
+
+
