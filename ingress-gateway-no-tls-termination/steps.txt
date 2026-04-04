@@ -16,6 +16,8 @@ kubectl apply -f virtual-service.yaml
 curl http://booking.example.com:30000/bookings
 
 
+kubectl apply -f gateway-tls.yaml
+
 
 
 
