@@ -28,6 +28,9 @@ kubectl create -n istio-system secret tls booking-credential \
 
 
 
+kubectl apply -f ingress.yaml
+
+
 
 
 
