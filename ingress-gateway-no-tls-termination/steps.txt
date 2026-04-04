@@ -6,4 +6,6 @@ kubectl get pod -L app,version
 
 kubectl get svc booking-service
 
+kubectl apply -f gateway.yaml
+
 
