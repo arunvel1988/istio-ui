@@ -20,6 +20,10 @@ kubectl exec tester -- \
     grep  "HTTP/";
 
 
+kubectl apply -f service-entry.yaml
+
+
+
 
 
 
