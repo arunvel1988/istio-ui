@@ -1,0 +1,26 @@
+#######################################################################################
+
+kubectl run tester --image=nginx
+
+kubectl exec tester -- \
+    curl -sS -o /dev/null -D - http://httpbin.org/status/200 | \
+    grep  "HTTP/";
+
+
+
+
+istioctl install --set profile=demo \
+    -y --manifests=/root/istio-${ISTIO_VERSION}/manifests \
+    --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+
+
+
+kubectl exec tester -- \
+    curl -sS -o /dev/null -D - http://httpbin.org/status/200 | \
+    grep  "HTTP/";
+
+
+
+
+
+    #######################################################################################
