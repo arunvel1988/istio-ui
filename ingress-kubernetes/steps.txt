@@ -15,4 +15,7 @@ kubectl exec -it tester -- \
 
 
 
+kubectl apply -f ingress-class.yaml
+
+
 
