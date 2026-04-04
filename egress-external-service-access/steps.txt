@@ -38,6 +38,13 @@ kubectl exec tester -- curl -o /dev/null \
     http://httpbin.org/delay/5; \
     echo;
 
+kubectl apply -f virtual-service.yaml
+
+kubectl exec tester -- curl -o /dev/null \
+    -sS -w "Response status code: %{http_code}\nTotal time: %{time_total}\n" \
+    http://httpbin.org/delay/5; \
+    echo;
+
 
 
 #######################################################################################
