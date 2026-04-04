@@ -14,6 +14,7 @@ istioctl install --set profile=demo \
     --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 
 
+#######################################################################################
 
 kubectl exec tester -- \
     curl -sS -o /dev/null -D - http://httpbin.org/status/200 | \
@@ -21,6 +22,25 @@ kubectl exec tester -- \
 
 
 kubectl apply -f service-entry.yaml
+
+kubectl exec tester -- \
+    curl -sS -o /dev/null -D - http://httpbin.org/status/200 | \
+    grep  "HTTP/";
+
+#######################################################################################
+
+
+kubectl logs tester -c istio-proxy | tail
+
+
+kubectl exec tester -- curl -o /dev/null \
+    -sS -w "Response status code: %{http_code}\nTotal time: %{time_total}\n" \
+    http://httpbin.org/delay/5; \
+    echo;
+
+
+
+#######################################################################################
 
 
 
