@@ -19,6 +19,11 @@ curl http://booking.example.com:30000/bookings
 kubectl apply -f gateway-tls.yaml
 
 
+curl -v --cacert certificates/example.com.crt \
+  https://booking.example.com:30443/bookings; \
+  echo;
+
+
 
 
 
