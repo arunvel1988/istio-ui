@@ -44,6 +44,8 @@ kubectl exec tester -c tester -- \
 
 #####################################
 
+kubectl apply -f gateway-https.yaml
+
 
 
 
