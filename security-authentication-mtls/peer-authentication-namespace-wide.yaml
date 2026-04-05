@@ -1,0 +1,13 @@
+###########################################################################################
+
+# namespace wide
+
+# File peer-authentication.yaml
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: namespace-wide-mtls
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
