@@ -49,4 +49,18 @@ kubectl exec tester -c tester -- \
 >   grep HTTP/
 HTTP/1.1 200 OK
 ###################################################################################
+kubectl logs -l istio=egressgateway \
+>   -n istio-system
 
+
+2026-04-05T10:11:52.700575Z     info    cache   returned workload trust anchor from cache       ttl=23h59m59.299425939s
+2026-04-05T10:11:52.700621Z     info    cache   returned workload certificate from cache        ttl=23h59m59.299379631s
+2026-04-05T10:11:52.700933Z     info    cache   returned workload trust anchor from cache       ttl=23h59m59.299068017s
+2026-04-05T10:11:52.701114Z     info    cache   returned workload trust anchor from cache       ttl=23h59m59.298886183s
+2026-04-05T10:11:53.361943Z     info    Readiness succeeded in 1.453041607s
+2026-04-05T10:11:53.362300Z     info    Envoy proxy is ready
+2026-04-05T10:18:30.277181Z     info    ads     ADS: new connection for node:3
+2026-04-05T10:18:30.281532Z     info    cache   adding watcher for file certificate /etc/ssl/certs/ca-certificates.crt
+2026-04-05T10:18:30.281671Z     info    cache   read certificate from file      resource=file-root:system
+[2026-04-05T10:19:53.193Z] "GET /markets/crypto/all/ HTTP/2" 200 - via_upstream - "-" 0 310630 1546 841 "192.168.1.4" "Istio ICA Client" "984e4863-e576-9a9f-ab22-299a63e0e98a" "finance.yahoo.com" "69.147.80.15:443" outbound|443||finance.yahoo.com 192.168.1.176:38764 192.168.1.176:8080 192.168.1.4:39718 - -
+###################################################################################
