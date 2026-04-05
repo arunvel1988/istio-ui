@@ -1,0 +1,18 @@
+# File gateway.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - name: httpbin
+    port:
+      number: 443
+      name: tls
+      protocol: TLS
+    hosts:
+    - httpbin.org
+    tls:
+      mode: PASSTHROUGH
