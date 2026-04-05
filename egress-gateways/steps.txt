@@ -1,1 +1,10 @@
 #####################################
+
+
+kubectl -n istio-system get configmap istio -o yaml | grep -A 1 outboundTrafficPolicy
+
+kubectl exec tester -c tester -- \
+    curl -sS -o /dev/null -D - http://httpbin.org/status/200 | \
+    grep HTTP/
+
+
