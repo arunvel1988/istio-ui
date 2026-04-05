@@ -49,6 +49,15 @@ kubectl apply -f gateway-https.yaml
 
 kubectl apply -f virtual-service.yaml
 
+kubectl exec tester -c tester -- \
+  curl -sS -o /dev/null -D - https://httpbin.org/status/200 | \
+  grep HTTP/
+
+
+kubectl logs -l istio=egressgateway -n istio-system
+
+#######################################################################################################################################
+
 
 
 
