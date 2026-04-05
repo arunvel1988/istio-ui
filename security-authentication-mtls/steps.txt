@@ -68,4 +68,6 @@ curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 #########################################################################################
 
+kubectl apply -f peer-authentication-namespace-wide.yaml
+#########################################################################################
 
