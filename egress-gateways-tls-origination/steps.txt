@@ -43,3 +43,10 @@ kubectl apply -f destination-rule.yaml
 kubectl apply -f virtual-service.yaml
 ###################################################################################
 
+
+kubectl exec tester -c tester -- \
+>   curl -sSL --user-agent "Istio ICA Client" -o /dev/null -D - http://finance.yahoo.com/markets/crypto/all/ | \
+>   grep HTTP/
+HTTP/1.1 200 OK
+###################################################################################
+
