@@ -46,4 +46,10 @@ kubectl exec -it tester -n foo -- \
 kubectl apply -f peer-authentication.yaml
 
 
+#########################################################################################
+kubectl exec -it tester -n foo -- \
+>     curl -X POST http://notification-service.foo.svc.cluster.local/notify; \
+>     echo;
+["EMAIL"]
 
+#########################################################################################
