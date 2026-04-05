@@ -1,0 +1,9 @@
+# File peer-authentication.yaml
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: cluster-wide-mtls
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
