@@ -1,0 +1,7 @@
+###################################################################################
+
+kubectl -n istio-system get configmap istio -o yaml | grep -A 1 outboundTrafficPolicy
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
+
+
