@@ -15,6 +15,11 @@ kubectl exec tester -- \
     grep  "HTTP/";
 
 
+kubectl apply -f gateway.yaml
+
+
+
+
 
 
 
