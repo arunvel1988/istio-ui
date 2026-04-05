@@ -16,5 +16,9 @@ echo
 kubectl get namespace bar -o jsonpath='{.metadata.labels.istio-injection}'
 echo
 
+#########################################################################################
 
+kubectl get pod,service -n foo
 
+kubectl get pod,service -n bar
+#########################################################################################
