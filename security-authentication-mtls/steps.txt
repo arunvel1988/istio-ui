@@ -1,2 +1,20 @@
 #########################################################################################
 
+
+
+kubectl create namespace foo
+kubectl create namespace bar
+
+kubectl label namespace foo istio-injection=enabled
+kubectl label namespace bar istio-injection=enabled
+
+kubectl get namespaces -L istio-injection
+
+kubectl get namespace foo -o jsonpath='{.metadata.labels.istio-injection}'
+echo
+
+kubectl get namespace bar -o jsonpath='{.metadata.labels.istio-injection}'
+echo
+
+
+
