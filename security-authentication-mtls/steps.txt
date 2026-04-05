@@ -43,5 +43,7 @@ kubectl exec -it tester -n foo -- \
 ["EMAIL"]
 
 #########################################################################################
+kubectl apply -f peer-authentication.yaml
+
 
 
