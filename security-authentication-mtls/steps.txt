@@ -22,3 +22,26 @@ kubectl get pod,service -n foo
 
 kubectl get pod,service -n bar
 #########################################################################################
+
+
+kubectl exec -it tester -- \
+>     curl -X POST http://notification-service.foo.svc.cluster.local/notify; \
+>     echo;
+["EMAIL"]
+
+
+
+kubectl exec -it tester -- \
+>     curl -X POST http://notification-service.bar.svc.cluster.local/notify; \
+>     echo;
+["EMAIL"]
+#########################################################################################
+
+kubectl exec -it tester -n foo -- \
+>     curl -X POST http://notification-service.foo.svc.cluster.local/notify; \
+>     echo;
+["EMAIL"]
+
+#########################################################################################
+
+
