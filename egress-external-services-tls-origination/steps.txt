@@ -8,3 +8,4 @@ kubectl exec tester -c tester -- \
   grep -e HTTP/ -e location; \
   echo;
 
+kubectl apply -f service-entry-https.yaml
