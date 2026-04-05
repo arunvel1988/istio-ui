@@ -69,5 +69,10 @@ command terminated with exit code 56
 #########################################################################################
 
 kubectl apply -f peer-authentication-namespace-wide.yaml
+
+kubectl exec -it tester -n foo -- \
+>     curl -X POST http://notification-service.foo.svc.cluster.local/notify; \
+>     echo;
+["EMAIL"]
 #########################################################################################
 
