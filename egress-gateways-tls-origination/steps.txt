@@ -20,8 +20,16 @@ HTTP/1.1 502 Bad Gateway
 
 kubectl apply -f service-entry.yaml
 
+kubectl exec tester -c tester -- \
+>   curl -sSL --user-agent "Istio ICA Client" -o /dev/null -D - http://finance.yahoo.com/markets/crypto/all/ | \
+>   grep -e HTTP/ \
+>   -e location
+HTTP/1.1 301 Moved Permanently
+location: https://finance.yahoo.com/markets/crypto/all/
+HTTP/2 200 
 
 
+###################################################################################
 
 
 
