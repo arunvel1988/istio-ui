@@ -5,3 +5,19 @@ kubectl -n istio-system get configmap istio -o yaml | grep -A 1 outboundTrafficP
       mode: REGISTRY_ONLY
 
 
+
+kubectl exec tester -c tester -- \
+>   curl -sSL --user-agent "Istio ICA Client" -o /dev/null -D - http://finance.yahoo.com/markets/crypto/all/ | \
+>   grep HTTP/
+
+
+
+HTTP/1.1 502 Bad Gateway
+
+
+
+
+
+
+
+
