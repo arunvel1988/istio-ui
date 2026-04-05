@@ -53,3 +53,19 @@ kubectl exec -it tester -n foo -- \
 ["EMAIL"]
 
 #########################################################################################
+
+kubectl exec -it tester -- \
+>     curl -X POST http://notification-service.foo.svc.cluster.local/notify; \
+>     echo;
+curl: (56) Recv failure: Connection reset by peer
+command terminated with exit code 56
+
+
+kubectl exec -it tester -- \
+>     curl -X POST http://notification-service.bar.svc.cluster.local/notify; \
+>     echo;
+curl: (56) Recv failure: Connection reset by peer
+command terminated with exit code 56
+#########################################################################################
+
+
