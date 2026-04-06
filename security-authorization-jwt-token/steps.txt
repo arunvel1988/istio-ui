@@ -78,7 +78,16 @@ kubectl exec -it tester -- \
 
 ########################################################################################
 
+
+
 kubectl exec -it tester -- \
     curl -v http://booking-service/bookings; \
     echo;
 ########################################################################################
+kubectl exec -it tester -- \
+    curl -v -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InNlcnZpY2VfYXBwX2tleXMiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjQ4NjUzMTg5ODEsImdyb3VwcyI6WyJncm91cDIiXSwiaXNzIjoidGVzdGluZ0BzZWN1cmUuaXN0aW8uaW8iLCJzdWIiOiJ0b21Ac2VjdXJlLmlzdGlvLmlvIn0.HyKAoKcDLqJGMUw0tqWehpfiuY6LJ3eeK9I5AfrJ79mQo_ZMOml4YDmMz30LBAt1uW5Db3KWL782IAI7wuFRLNzVWrwU06Xc1ay1JRRBUwYqu_6wIB18j-5epFz-Y_Bftb9EznFxEijgS_oA2l9zz4QcgxYdNzQM3_xWxnkrPUSgNa-UWj12WrI3O6rQ-1SyWv98yS99BJimvHQ6Qot_AHjBsJeolQM6jSNItLGAXiK3xAV-CoRJiGMa6g0rVI6DAdVLZ2LwtY7zQmZ4QjGMg2byjcX-WG3DX73-HUesaObmDvscJxMUAjj5AFZcYEd-tDLSWCCmEd4eEL7lp5hOkA" \
+    http://booking-service/bookings; \
+    echo;
+
+########################################################################################
+
