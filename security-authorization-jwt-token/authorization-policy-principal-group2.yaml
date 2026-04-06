@@ -1,0 +1,17 @@
+# File authorization-policy.yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: booking-service
+spec:
+  selector:
+    matchLabels:
+      app: booking-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+       requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
+    when:
+      - key: request.auth.claims[groups]
+        values: ["group2"]
