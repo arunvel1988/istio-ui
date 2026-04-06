@@ -41,3 +41,15 @@ while true; do
 done &
 
 ############################################################################
+
+sum(istio_requests_total{destination_service_name='booking-service'})
+
+rate(istio_requests_total{destination_service_name='booking-service'}[1m])
+
+sum(rate(istio_requests_total{destination_service_name='booking-service',response_code=~'[45].*'}[1m]))
+
+histogram_quantile(0.99,sum(rate(istio_request_duration_milliseconds_bucket{destination_service_name='booking-service'}[1m]))by(le))
+
+############################################################################
+
+
