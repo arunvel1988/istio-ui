@@ -2,9 +2,9 @@
 istio-ui
 
 
-Installation
-Ambient Mode
-Traffic Management - Request Routing
+# Installation
+# Ambient Mode
+# Traffic Management - Request Routing
 Traffic Management - Fault Injection
 Traffic Management - Traffic Shifting
 Traffic Management - Circuit Breaking
