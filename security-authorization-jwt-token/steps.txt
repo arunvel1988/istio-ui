@@ -27,3 +27,6 @@ kubectl exec -it tester -- \
 
 ###############################################################################
 
+
+kubectl apply -f request-authentication-jwt.yaml
+
