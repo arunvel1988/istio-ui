@@ -9,5 +9,15 @@ kubectl exec -it tester -- \
     bash -c 'curl -s -X POST http://booking-service/book; \
     echo;'
 
+###########################################################################################
+
+
+kubectl exec -it tester -- \
+>     bash -c 'curl -s -X POST http://booking-service/book; \
+>     echo;'
+RBAC: access denied
+
+
+###########################################################################################
 
 
