@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: booking-service
+spec:
+  selector:
+    matchLabels:
+      app: booking-service
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://raw.githubusercontent.com/arunvel1988/istio-ui/refs/heads/main/security-authorization-jwt-token/jwks.json"
