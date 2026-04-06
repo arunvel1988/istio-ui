@@ -5,6 +5,9 @@ kubectl run tester --image=nginx
 
 kubectl apply -f notification-deployment.yaml
 
+
+kubectl apply -f booking-deployment.yaml
+
 kubectl get pod -L app,version
 
 kubectl get po -n istio-system
