@@ -1,0 +1,29 @@
+###############################################################################
+
+
+kubectl run tester --image=nginx
+
+kubectl apply -f booking-deployment.yaml
+
+
+kubectl exec -it tester -- \
+>     bash -c 'curl -s http://booking-service/bookings; \
+>     echo;'
+[
+    {
+        "id": "ac61270d-cb24-45bc-9f63-d9d70459846c",
+        "date": "08/02/2024"
+    },
+    {
+        "id": "db68f092-26a6-48f4-8de2-161edfad3972",
+        "date": "09/02/2024"
+    },
+    {
+        "id": "2c295e0e-831a-4e4a-8852-756fd2f1659f",
+        "date": "10/02/2024"
+    }
+]
+
+
+###############################################################################
+
