@@ -1,0 +1,15 @@
+# File authorization-policy.yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: booking-service-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: booking-service
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+       methods: ["POST"]
