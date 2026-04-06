@@ -29,4 +29,9 @@ kubectl apply -f authorization-policy-post.yaml
 
 kubectl apply -f authorization-policy-service-account.yaml
 
+kubectl exec -it tester -- \
+>     curl -X POST http://booking-service/book; \
+>     echo;
+{"id":"074d01f0-c59c-49b0-bc5d-0fa4ed0790ac","notification":["EMAIL"]}
+
 ###########################################################################################
