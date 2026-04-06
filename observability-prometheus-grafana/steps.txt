@@ -29,4 +29,23 @@ kubectl patch svc grafana -n istio-system \
 
 ########################################################################################
 
+while true; do
+  kubectl exec tester -- curl -s -X POST http://booking-service/book > /dev/null
+  sleep 2
+done &
+
+########################################################################################
+
+while true; do
+  kubectl exec tester -- curl -s http://booking-service/notfound > /dev/null
+  sleep 3
+done &
+
+########################################################################################
+kubectl exec tester -- curl -s -o /dev/null -w "%{http_code}" -X POST http://booking-service/book; echo
+
+kubectl exec tester -- curl -s -o /dev/null -w "%{http_code}" http://booking-service/notfound; echo
+
+
+########################################################################################
 
