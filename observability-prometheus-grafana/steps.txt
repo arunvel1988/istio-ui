@@ -1,3 +1,7 @@
 ########################################################################################
 
 
+kubectl run tester --image=nginx
+
+kubectl apply -f notification-deployment.yaml
+
