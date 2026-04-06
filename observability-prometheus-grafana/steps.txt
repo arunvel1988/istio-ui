@@ -2,15 +2,17 @@
 
 
 kubectl run tester --image=nginx
-
 kubectl apply -f notification-deployment.yaml
-
-
 kubectl apply -f booking-deployment.yaml
-
 kubectl get pod -L app,version
-
 kubectl get po -n istio-system
 
 
+########################################################################################
+
+
+kubectl apply -f ~/istio-1.26.0/samples/addons/prometheus.yaml
+kubectl apply -f ~/istio-1.26.0/samples/addons/grafana.yaml
+
+########################################################################################
 
