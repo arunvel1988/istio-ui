@@ -28,3 +28,16 @@ kubectl patch svc kiali -n istio-system \
 kubectl get svc -n istio-system prometheus kiali
 
 ############################################################################
+while true; do
+  kubectl exec tester -- curl -s -X POST http://booking-service/book > /dev/null
+  sleep 2
+done &
+
+############################################################################
+
+while true; do
+  kubectl exec tester -- curl -s http://booking-service/notfound > /dev/null
+  sleep 3
+done &
+
+############################################################################
