@@ -16,3 +16,17 @@ kubectl apply -f ~/istio-1.26.0/samples/addons/grafana.yaml
 
 ########################################################################################
 
+kubectl rollout status deployment/prometheus -n istio-system
+kubectl rollout status deployment/grafana -n istio-system
+
+
+########################################################################################
+
+kubectl patch svc prometheus -n istio-system \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9090, "nodePort": 30090, "targetPort": 9090}]}}'
+kubectl patch svc grafana -n istio-system \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 3000, "nodePort": 30300, "targetPort": 3000}]}}'
+
+########################################################################################
+
+
