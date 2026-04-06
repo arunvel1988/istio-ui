@@ -30,3 +30,7 @@ kubectl exec -it tester -- \
 
 kubectl apply -f request-authentication-jwt.yaml
 
+kubectl exec -it tester -- \
+>   curl -v -H "Authorization: Bearer invalidToken" \
+>   http://booking-service/bookings; \
+>   echo;
