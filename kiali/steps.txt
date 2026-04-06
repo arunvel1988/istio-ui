@@ -1,1 +1,10 @@
 ############################################################################
+
+kubectl run tester --image=nginx
+
+kubectl apply -f booking-deployment.yaml
+
+kubectl apply -f notification-deployment.yaml
+
+
+
